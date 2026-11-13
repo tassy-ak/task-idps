@@ -10,7 +10,8 @@ A web-based security monitoring project built with React, TypeScript and Vite. T
 - **Threat monitoring:** a dedicated view for reviewing threat information.
 - **Blocked IPs:** a page for viewing blocked IP address entries.
 - **Settings:** application configuration interface.
-- **Authentication:** sign-in interface and shared authentication context.
+- **Authentication:** sign-in and sign-up with a shared authentication context.
+- **Guest access:** explore the dashboard without creating an account; guest preferences are not saved.
 - **Installation:** setup guidance presented in the application.
 
 The repository also contains packet generation, packet analysis and threat mitigation service modules.
