@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Shield, Loader2 } from 'lucide-react';
+import { Shield, Loader2, UserRound } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
@@ -30,7 +30,7 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const navigate = useNavigate();
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, continueAsGuest } = useAuth();
   const { toast } = useToast();
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -219,6 +219,15 @@ const Auth = () => {
               </form>
             </TabsContent>
           </Tabs>
+          <div className="relative my-5">
+            <div className="absolute inset-0 flex items-center"><span className="w-full border-t" /></div>
+            <div className="relative flex justify-center text-xs uppercase"><span className="bg-card px-2 text-muted-foreground">Or explore first</span></div>
+          </div>
+          <Button type="button" variant="outline" className="w-full" onClick={() => { continueAsGuest(); navigate('/'); }}>
+            <UserRound className="mr-2 h-4 w-4" />
+            Continue as Guest
+          </Button>
+          <p className="mt-3 text-center text-xs text-muted-foreground">Guest mode lets you explore the dashboard without creating an account.</p>
         </CardContent>
       </Card>
     </div>
