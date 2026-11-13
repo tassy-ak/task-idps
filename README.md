@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
+# Intelligent Intrusion Detection and Prevention System (IDPS)
 
-## Project info
+A web-based security monitoring project built with React, TypeScript and Vite. The interface presents security monitoring views for detected threats, blocked IP addresses, installation/setup and application settings.
 
-**URL**: https://lovable.dev/projects/f9867435-8292-4d27-afd1-876130129841
+**Live application:** https://idpsi.lovable.app/  
+**Repository:** https://github.com/tassy-ak/task-idps
 
-## How can I edit this code?
+## Project areas
 
-There are several ways of editing your application.
+- **Threat monitoring:** a dedicated view for reviewing threat information.
+- **Blocked IPs:** a page for viewing blocked IP address entries.
+- **Settings:** application configuration interface.
+- **Authentication:** sign-in interface and shared authentication context.
+- **Installation:** setup guidance presented in the application.
 
-**Use Lovable**
+The repository also contains packet generation, packet analysis and threat mitigation service modules.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f9867435-8292-4d27-afd1-876130129841) and start prompting.
+## Technology stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- shadcn/ui and Radix UI components
+- Supabase JavaScript client
 
-**Use your preferred IDE**
+## Run locally
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js
+- npm
 
-Follow these steps:
+### Setup
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/tassy-ak/task-idps.git
+cd task-idps
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Vite prints the local development URL in the terminal.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Production build
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Lint
 
-## What technologies are used for this project?
+```bash
+npm run lint
+```
 
-This project is built with:
+## Configuration
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The application uses Supabase client integration. Configure the required environment variables in a local `.env` file according to the Supabase project settings. Do not commit credentials, API keys, or secrets.
 
-## How can I deploy this project?
+## Notes
 
-Simply open [Lovable](https://lovable.dev/projects/f9867435-8292-4d27-afd1-876130129841) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This repository describes the web application and its current code structure. Detection and mitigation behaviour should be evaluated against the configured data sources and runtime environment before being treated as production-grade network protection.
