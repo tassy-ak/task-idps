@@ -10,6 +10,8 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   loading: boolean;
+  isGuest: boolean;
+  continueAsGuest: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,6 +20,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isGuest, setIsGuest] = useState(() => sessionStorage.getItem('idps_guest_mode') === 'true');
 
   useEffect(() => {
     // Set up auth state listener
@@ -25,6 +28,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
+        if (session?.user) {
+          setIsGuest(false);
+          sessionStorage.removeItem('idps_guest_mode');
+        } else if (event === 'SIGNED_OUT') {
+          setIsGuest(false);
+          sessionStorage.removeItem('idps_guest_mode');
+        }
         setLoading(false);
       }
     );
@@ -33,6 +43,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (session?.user) {
+        setIsGuest(false);
+        sessionStorage.removeItem('idps_guest_mode');
+      }
       setLoading(false);
     });
 
@@ -63,12 +77,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return { error };
   };
 
+  const continueAsGuest = () => {
+    sessionStorage.setItem('idps_guest_mode', 'true');
+    setIsGuest(true);
+  };
+
   const signOut = async () => {
+    sessionStorage.removeItem('idps_guest_mode');
+    setIsGuest(false);
     await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, signUp, signIn, signOut, loading }}>
+    <AuthContext.Provider value={{ user, session, signUp, signIn, signOut, loading, isGuest, continueAsGuest }}>
       {children}
     </AuthContext.Provider>
   );
