@@ -20,16 +20,16 @@ const BlockedIPs = () => {
   const [blockedIPs, setBlockedIPs] = useState<BlockedIP[]>([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isGuest) {
       navigate('/auth');
       return;
     }
 
     fetchBlockedIPs();
-  }, [user, navigate]);
+  }, [user, isGuest, navigate]);
 
   const fetchBlockedIPs = async () => {
     const { data, error } = await supabase
