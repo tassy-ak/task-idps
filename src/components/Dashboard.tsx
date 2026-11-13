@@ -18,7 +18,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { isActive, events, trafficData } = useIDSEngine();
   const { realtimeThreats } = useRealtimeThreats();
-  const { user, signOut } = useAuth();
+  const { user, isGuest, signOut } = useAuth();
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [blockedIPsCount, setBlockedIPsCount] = useState(0);
@@ -48,10 +48,10 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isGuest) {
       navigate('/auth');
     }
-  }, [user, navigate]);
+  }, [user, isGuest, navigate]);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -87,7 +87,7 @@ const Dashboard = () => {
     navigate('/auth');
   };
 
-  if (!user) return null;
+  if (!user && !isGuest) return null;
 
   return (
     <div className="min-h-screen bg-background p-6 space-y-6">
@@ -107,6 +107,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="flex gap-3">
+          {isGuest && <Badge variant="secondary" className="px-3 py-2">Guest mode · Demo access</Badge>}
           <Button onClick={handleInstall} variant="outline" className="gap-2">
             <Download className="h-4 w-4" />
             Install App
@@ -117,7 +118,7 @@ const Dashboard = () => {
           </Button>
           <Button onClick={handleSignOut} variant="outline" className="gap-2">
             <LogOut className="h-4 w-4" />
-            Logout
+            {isGuest ? 'Exit Guest' : 'Logout'}
           </Button>
           <Badge variant="outline" className="px-4 py-2 text-sm border-primary/30 bg-primary/5">
             <span className="relative flex h-2 w-2 mr-2">
