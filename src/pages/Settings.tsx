@@ -19,7 +19,7 @@ interface NotificationPreferences {
 }
 
 const Settings = () => {
-  const { user } = useAuth();
+  const { user, isGuest } = useAuth();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -44,7 +44,10 @@ const Settings = () => {
   }, [user]);
 
   const loadPreferences = async () => {
-    if (!user) return;
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     try {
       setLoading(true);
@@ -147,6 +150,8 @@ const Settings = () => {
             </p>
           </div>
         </div>
+
+        {isGuest && <Card><CardContent className="p-4 text-sm text-muted-foreground">Guest mode: settings are a preview and cannot be saved to an account.</CardContent></Card>}
 
         {/* Notification Settings */}
         <Card>
@@ -314,7 +319,7 @@ const Settings = () => {
 
         {/* Save Button */}
         <div className="flex justify-end">
-          <Button onClick={savePreferences} disabled={saving} size="lg">
+          <Button onClick={savePreferences} disabled={saving || isGuest} size="lg">
             <Save className="h-4 w-4 mr-2" />
             {saving ? 'Saving...' : 'Save Preferences'}
           </Button>
